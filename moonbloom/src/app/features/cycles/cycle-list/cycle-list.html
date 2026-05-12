@@ -1,1 +1,35 @@
-<p>cycle-list works!</p>
+
+<div class="container mt-4">
+
+  <h2 class="mb-3">My Cycles 🌙</h2>
+
+  <!-- LOADING -->
+  <div *ngIf="loading" class="alert alert-info">
+    Loading cycles...
+  </div>
+
+  <!-- ERROR -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div *ngIf="!loading && !errorMessage && cycles.length === 0" class="alert alert-warning">
+    No cycles yet. Create your first one 🌸
+  </div>
+
+  <!-- LIST -->
+  <div *ngFor="let cycle of cycles" class="card mb-2 p-3">
+
+    <div>
+      <strong>{{ cycle.name || 'Cycle' }}</strong>
+    </div>
+
+    <!-- FUTURO CRUD (DELETE BUTTON PREPARADO) -->
+    <button class="btn btn-sm btn-danger mt-2">
+      Delete
+    </button>
+
+  </div>
+
+</div>

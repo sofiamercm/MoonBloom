@@ -1,44 +1,71 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.html'
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  templateUrl: './login.html',
+  styleUrl: './login.scss'
 })
 export class LoginComponent {
 
+  showPassword = false;
   isLoading = false;
   errorMessage = '';
   loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
   onLogin(): void {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
 
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.authService.login(this.loginForm.value)
-      .subscribe({
-        next: (response: any) => {
-          this.isLoading = false;
-          console.log('Login successful', response);
-        },
-        error: (err: any) => {
-          this.isLoading = false;
-          this.errorMessage = 'Invalid credentials. Please try again.';
-          console.error('Login error', err);
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response: any) => {
+        this.isLoading = false;
+
+        console.log('Login successful:', response);
+
+        // Guardar token
+        if (response?.token) {
+          localStorage.setItem('token', response.token);
         }
-      });
+
+        // Guardar usuario
+        if (response?.user) {
+          localStorage.setItem('user', JSON.stringify(response.user));
+        }
+
+        // Redirigir al usuario a la página de inicio
+        this.router.navigate(['/dashboard']);
+      },
+
+      error: (err: any) => {
+        this.isLoading = false;
+
+        this.errorMessage =
+          err?.error?.message || 'Invalid credentials. Please try again.';
+
+        console.error('Login error:', err);
+      }
+    });
   }
 }

@@ -1,57 +1,106 @@
-<div class="container mt-5">
+<div class="login-wrapper">
 
-  <div class="row justify-content-center">
-
-    <div class="col-md-5">
-
-      <div class="card shadow p-4">
-
-        <h2 class="text-center mb-4">
-          Create Account 🌸
-        </h2>
-
-        <form>
-
-          <div class="mb-3">
-            <label>Name</label>
-
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Enter your name"
-            >
-          </div>
-
-          <div class="mb-3">
-            <label>Email</label>
-
-            <input
-              type="email"
-              class="form-control"
-              placeholder="Enter your email"
-            >
-          </div>
-
-          <div class="mb-4">
-            <label>Password</label>
-
-            <input
-              type="password"
-              class="form-control"
-              placeholder="Create a password"
-            >
-          </div>
-
-          <button class="btn btn-dark w-100">
-            Register
-          </button>
-
-        </form>
-
-      </div>
-
-    </div>
-
+  <!-- Tarjeta de fondo (decorativa) -->
+  <div class="card-back">
+    <div class="blob-orange"></div>
   </div>
 
+  <!-- Tarjeta principal -->
+  <div class="card-front">
+
+    <div class="card-header">
+      <span class="brand">Moonbloom</span>
+      <span class="sign-up-link" routerLink="/login" style="cursor:pointer">Log in</span>
+    </div>
+
+    <h2 class="card-title">Sign up</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+      <!-- NAME -->
+      <div class="field-wrap" [class.field-error]="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+        <div class="field-pill">
+          <span class="field-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+          </span>
+          <input
+            type="text"
+            placeholder="full name"
+            formControlName="name"
+          />
+        </div>
+        <small class="error-msg"
+          *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+          We need your name to continue
+        </small>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="field-wrap" [class.field-error]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <div class="field-pill">
+          <span class="field-icon">@</span>
+          <input
+            type="email"
+            placeholder="e-mail address"
+            formControlName="email"
+          />
+        </div>
+        <small class="error-msg"
+          *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+          Invalid email
+        </small>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="field-wrap" [class.field-error]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        <div class="field-pill">
+          <span class="field-icon">&#128273;</span>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="password"
+            formControlName="password"
+          />
+          <button type="button" class="eye-btn" title="Show/Hide password" (click)="showPassword = !showPassword" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <small class="error-msg"
+          *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+          Please use at least 6 characters
+        </small>
+      </div>
+
+      <!-- ERROR GENERAL -->
+      <div *ngIf="errorMessage" class="alert-error">
+        {{ errorMessage }}
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="submit-row">
+        <p class="disclaimer">
+          Your cycle, your story.
+          <br>
+          Let's get started.
+        </p>
+        <button type="submit" class="blob-btn" [disabled]="isLoading" aria-label="Register">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+      </div>
+
+    </form>
+
+  </div>
 </div>

@@ -1,55 +1,95 @@
-<div class="hero-section d-flex align-items-center">
+<div class="home-wrapper">
 
-  <div class="container">
+  <!-- Tarjeta de fondo decorativa -->
+  <div class="card-back">
+  </div>
 
-    <div class="row align-items-center">
+  <!-- Hero -->
+  <div class="hero-front">
 
-      <div class="col-md-6">
+    <div class="card-header">
+      <span class="brand">Moonbloom</span>
+      <div class="header-actions">
+        <span class="nav-link" routerLink="/login">Log in</span>
+        <span class="nav-link nav-link--primary" routerLink="/register">Sign up</span>
+      </div>
+    </div>
 
-        <h1 class="display-3 fw-bold mb-4">
-          MoonBloom 🌸
+    <div class="hero-body">
+
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Your body,<br>
+          <span class="hero-title--muted">your rhythm.</span>
         </h1>
-
-        <p class="lead mb-4">
-          Track your menstrual cycle, wellness, and daily mood
+        <p class="hero-subtitle">
+          Track your cycle, wellness, and daily mood
           in one beautiful and safe place.
         </p>
-
-        <div class="d-flex gap-3">
-
-          <a
-            routerLink="/register"
-            class="btn btn-dark btn-lg"
-          >
-            Get Started
-          </a>
-
-          <a
-            routerLink="/login"
-            class="btn btn-outline-dark btn-lg"
-          >
-            Login
-          </a>
-
+        <div class="hero-actions">
+          <a routerLink="/register" class="btn-primary-pill">Get started</a>
+          <a routerLink="/login" class="btn-ghost-pill">Log in</a>
         </div>
-
       </div>
 
-      <div class="col-md-6 text-center">
+      <div class="hero-card-companion">
+        <p class="companion-label">Your wellness companion</p>
+        <p class="companion-sub">
+          Monitor cycles, symptoms, emotions,
+          and discover patterns in your body.
+        </p>
+        <div class="blob-mini"></div>
+      </div>
 
-        <div class="hero-card shadow-lg">
+    </div>
 
-          <h3 class="mb-3">
-            Your wellness companion ✨
-          </h3>
+  </div>
 
-          <p>
-            Monitor cycles, symptoms, emotions, and discover
-            patterns in your body.
-          </p>
+  <!-- Sección features -->
+  <div class="features-section">
 
+    <div class="features-header">
+      <h2 class="features-title">Why Moonbloom?</h2>
+      <p class="features-sub">Designed for comfort, wellness, and simplicity.</p>
+    </div>
+
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
         </div>
+        <h4 class="feature-name">Cycle Tracking</h4>
+        <p class="feature-desc">Register and manage your menstrual cycles easily.</p>
+      </div>
 
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+            <line x1="9" y1="9" x2="9.01" y2="9"/>
+            <line x1="15" y1="9" x2="15.01" y2="9"/>
+          </svg>
+        </div>
+        <h4 class="feature-name">Daily Mood Logs</h4>
+        <p class="feature-desc">Keep track of emotions, symptoms, and wellness.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+        <h4 class="feature-name">Safe & Private</h4>
+        <p class="feature-desc">Your personal information stays protected and secure.</p>
       </div>
 
     </div>
@@ -57,71 +97,3 @@
   </div>
 
 </div>
-
-<section class="container my-5">
-
-  <div class="text-center mb-5">
-
-    <h2>
-      Why MoonBloom?
-    </h2>
-
-    <p class="text-muted">
-      Designed for comfort, wellness, and simplicity.
-    </p>
-
-  </div>
-
-  <div class="row g-4">
-
-    <div class="col-md-4">
-
-      <div class="card border-0 shadow-sm p-4 h-100">
-
-        <h4>
-          📅 Cycle Tracking
-        </h4>
-
-        <p>
-          Register and manage your menstrual cycles easily.
-        </p>
-
-      </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-      <div class="card border-0 shadow-sm p-4 h-100">
-
-        <h4>
-          😊 Daily Mood Logs
-        </h4>
-
-        <p>
-          Keep track of emotions, symptoms, and wellness.
-        </p>
-
-      </div>
-
-    </div>
-
-    <div class="col-md-4">
-
-      <div class="card border-0 shadow-sm p-4 h-100">
-
-        <h4>
-          🔒 Safe & Private
-        </h4>
-
-        <p>
-          Your personal information stays protected and secure.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
