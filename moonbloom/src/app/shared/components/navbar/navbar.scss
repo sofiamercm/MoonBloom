@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
+
+// ── Tokens ─────────────────────────────────────────────
+$text-dark:   #1c1b19;
+$text-muted:  #9a9590;
+$cream:       rgba(250, 247, 242, 0.45);
+
+$radius-pill: 100px;
+
+// ── Navbar ─────────────────────────────────────────────
+.navbar-wrapper {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 28px;
+
+  background: $cream;
+
+  border: 1px solid rgba(255,255,255,0.75);
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    0 4px 30px rgba(0,0,0,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  font-family: 'Poppins', sans-serif;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+
+// ── Brand ──────────────────────────────────────────────
+.navbar-brand {
+  font-size: 15px;
+  font-weight: 500;
+
+  color: $text-dark;
+
+  letter-spacing: -0.01em;
+
+  cursor: pointer;
+}
+
+// ── Links ──────────────────────────────────────────────
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.nav-link {
+  position: relative;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 400;
+
+  color: $text-muted;
+
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $text-dark;
+  }
+}
+
+.active-link {
+  color: $text-dark;
+}
+
+// ── Logout ─────────────────────────────────────────────
+.logout-btn {
+  border: none;
+
+  background: $text-dark;
+  color: white;
+
+  padding: 10px 18px;
+
+  border-radius: $radius-pill;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    background 0.2s;
+
+  &:hover {
+    background: #333;
+    transform: scale(1.03);
+  }
+}

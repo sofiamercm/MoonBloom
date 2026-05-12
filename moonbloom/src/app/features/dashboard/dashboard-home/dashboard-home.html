@@ -1,57 +1,183 @@
-<div class="container mt-5">
+<div class="dashboard-wrapper">
 
-  <div class="mb-5">
-    <h1>
-      Welcome back 🌸
-    </h1>
-
-    <p class="text-muted">
-      Here’s your wellness overview.
-    </p>
+  <!-- Fondo decorativo -->
+  <div class="card-back">
+    <div class="blob-orange"></div>
   </div>
 
-  <div class="row g-4">
+  <!-- Contenido -->
+  <div class="dashboard-front">
 
-    <div class="col-md-4">
-      <div class="card shadow-sm p-4">
+    <!-- Header -->
+    <div class="dashboard-header">
 
-        <h5>
-          Current Cycle
-        </h5>
+      <div>
+        <p class="dashboard-label">Moonbloom</p>
 
-        <h2>
-          Day 12
-        </h2>
+        <h1 class="dashboard-title">
+          Hello, {{ user.name }}
+          <span class="wave">✦</span>
+        </h1>
 
+        <p class="dashboard-subtitle">
+          Here’s a soft overview of your wellness journey.
+        </p>
       </div>
+
+      <button class="btn-primary-pill">
+        Add daily log
+      </button>
+
     </div>
 
-    <div class="col-md-4">
-      <div class="card shadow-sm p-4">
+    <!-- Stats -->
+    <div class="stats-grid">
 
-        <h5>
-          Next Period
-        </h5>
+      <div class="stat-card">
+        <p class="stat-number">
+          {{ totalCycles }}
+        </p>
 
-        <h2>
-          5 days
-        </h2>
+        <p class="stat-label">
+          Cycles tracked
+        </p>
+      </div>
+
+      <div class="stat-card">
+        <p class="stat-number">
+          {{ totalLogs }}
+        </p>
+
+        <p class="stat-label">
+          Daily logs
+        </p>
+      </div>
+
+      <div class="stat-card">
+
+        <ng-container *ngIf="lastLog; else noMood">
+
+          <p class="stat-number">
+            {{ lastLog.mood }}
+          </p>
+
+          <p class="stat-label">
+            Latest mood
+          </p>
+
+        </ng-container>
+
+        <ng-template #noMood>
+
+          <p class="stat-number">—</p>
+
+          <p class="stat-label">
+            No logs yet
+          </p>
+
+        </ng-template>
 
       </div>
+
     </div>
 
-    <div class="col-md-4">
-      <div class="card shadow-sm p-4">
+    <!-- Main Grid -->
+    <div class="dashboard-grid">
 
-        <h5>
-          Mood
-        </h5>
+      <!-- Cycle Card -->
+      <div class="glass-card cycle-card">
 
-        <h2>
-          😊
-        </h2>
+        <div class="section-header">
+          <h3>Current cycle</h3>
+        </div>
+
+        <ng-container *ngIf="lastCycle; else emptyCycle">
+
+          <div class="cycle-grid">
+
+            <div class="cycle-item">
+              <span class="cycle-label">Start</span>
+              <span class="cycle-value">
+                {{ lastCycle.startDate }}
+              </span>
+            </div>
+
+            <div class="cycle-item">
+              <span class="cycle-label">End</span>
+              <span class="cycle-value">
+                {{ lastCycle.endDate }}
+              </span>
+            </div>
+
+            <div class="cycle-item">
+              <span class="cycle-label">Duration</span>
+              <span class="cycle-value">
+
+                <ng-container *ngIf="lastCycle.durationDays">
+                  {{ lastCycle.durationDays }} days
+                </ng-container>
+
+                <ng-container *ngIf="!lastCycle.durationDays">
+                  —
+                </ng-container>
+
+              </span>
+            </div>
+
+          </div>
+
+          <p
+            class="cycle-notes"
+            *ngIf="lastCycle.notes"
+          >
+            {{ lastCycle.notes }}
+          </p>
+
+        </ng-container>
+
+        <ng-template #emptyCycle>
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              ✦
+            </div>
+
+            <p class="empty-title">
+              No cycles yet
+            </p>
+
+            <p class="empty-sub">
+              Start tracking to discover patterns and rhythms.
+            </p>
+
+          </div>
+
+        </ng-template>
 
       </div>
+
+      <!-- Quick Actions -->
+      <div class="glass-card quick-card">
+
+        <div class="section-header">
+          <h3>Quick actions</h3>
+        </div>
+
+        <div class="quick-actions">
+
+          <button class="btn-dark">
+            Register today’s symptoms
+          </button>
+
+          <button class="btn-soft">
+            View calendar
+          </button>
+
+        </div>
+
+      </div>
+
     </div>
 
   </div>

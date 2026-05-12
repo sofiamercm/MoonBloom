@@ -1,23 +1,46 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-  <a class="navbar-brand" routerLink="/">
-    MoonBloom 🌸
-  </a>
+<nav class="navbar-wrapper">
 
-  <div class="ms-auto d-flex gap-3">
-    <a class="nav-link text-white" routerLink="/">
-      Home
-    </a>
+  <!-- Brand -->
+  <div class="navbar-brand" routerLink="/">
+    Moonbloom
+  </div>
 
-    <a class="nav-link text-white" routerLink="/login">
-      Login
-    </a>
+  <!-- Navigation -->
+  <div class="navbar-links">
 
-    <a class="nav-link text-white" routerLink="/register">
-      Register
-    </a>
-
-    <a class="nav-link text-white" routerLink="/dashboard">
+    <a
+      class="nav-link"
+      routerLink="/dashboard"
+      routerLinkActive="active-link"
+    >
       Dashboard
     </a>
+
+    <a
+      class="nav-link"
+      routerLink="/calendar"
+      routerLinkActive="active-link"
+    >
+      My Calendar
+    </a>
+
+    <a
+      class="nav-link"
+      routerLink="/daily-logs"
+      routerLinkActive="active-link"
+    >
+      Daily Logs
+    </a>
+
   </div>
+
+  <!-- Actions -->
+  <div class="navbar-actions">
+
+    <button class="logout-btn">
+      Log out
+    </button>
+
+  </div>
+
 </nav>
