@@ -24,9 +24,9 @@
         </p>
       </div>
 
-      <button class="btn-primary-pill">
+      <a routerLink="/registros/nuevo" class="btn-primary-pill" style="text-decoration: none; display: inline-block; text-align: center;">
         Add daily log
-      </button>
+      </a>
 
     </div>
 
@@ -98,14 +98,14 @@
             <div class="cycle-item">
               <span class="cycle-label">Start</span>
               <span class="cycle-value">
-                {{ lastCycle.startDate }}
+                {{ lastCycle.startDate | date:'longDate' }}
               </span>
             </div>
 
             <div class="cycle-item">
               <span class="cycle-label">End</span>
               <span class="cycle-value">
-                {{ lastCycle.endDate }}
+                {{ lastCycle.endDate | date:'longDate' }}
               </span>
             </div>
 
@@ -147,9 +147,13 @@
               No cycles yet
             </p>
 
-            <p class="empty-sub">
+            <p class="empty-sub" style="margin-bottom: 20px;">
               Start tracking to discover patterns and rhythms.
             </p>
+
+            <a routerLink="/ciclos/nuevo" class="btn-primary-pill" style="text-decoration: none; display: inline-block;">
+              Create your first cycle
+            </a>
 
           </div>
 
@@ -166,13 +170,13 @@
 
         <div class="quick-actions">
 
-          <button class="btn-dark">
+          <a routerLink="/registros/nuevo" class="btn-dark" style="text-decoration: none; text-align: center;">
             Register today’s symptoms
-          </button>
+          </a>
 
-          <button class="btn-soft">
+          <a routerLink="/calendario" class="btn-soft" style="text-decoration: none; text-align: center;">
             View calendar
-          </button>
+          </a>
 
         </div>
 

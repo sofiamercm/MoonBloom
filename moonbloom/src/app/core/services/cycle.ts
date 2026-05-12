@@ -6,15 +6,24 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CycleService {
 
-  private API_URL = 'http://localhost:3000/cycles';
+  private API_URL = 'http://localhost:3000/api/cycles';
 
   constructor(private http: HttpClient) {}
 
   getCycles() {
-    return this.http.get(this.API_URL);
+    // Agregar timestamp para evitar caché del navegador
+    return this.http.get(`${this.API_URL}?t=${new Date().getTime()}`, { withCredentials: true });
   }
 
   createCycle(cycle: any) {
-    return this.http.post(this.API_URL, cycle);
+    return this.http.post(this.API_URL, cycle, { withCredentials: true });
+  }
+
+  getCycleById(id: string) {
+    return this.http.get(`${this.API_URL}/${id}`, { withCredentials: true });
+  }
+
+  updateCycle(id: string, cycle: any) {
+    return this.http.put(`${this.API_URL}/${id}`, cycle, { withCredentials: true });
   }
 }

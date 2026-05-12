@@ -11,6 +11,7 @@ export const getCycles = async (req: Request, res: Response): Promise<void> => {
   const cycles = await Cycle.find({ userId: req.user!._id })
     .sort({ startDate: -1 })
     .populate("userId", "name email");
+  console.log('GET /api/cycles - userId:', req.user!._id, 'cycles found:', cycles.length);
   res.json(cycles);
 };
 

@@ -1,0 +1,89 @@
+<div class="dashboard-wrapper">
+  <!-- Fondo decorativo -->
+  <div class="card-back">
+    <div class="blob-orange"></div>
+  </div>
+
+  <div class="dashboard-front">
+    
+    <!-- ── Cabecera ───────────────────────────────────────────────────────── -->
+    <div class="dashboard-header">
+      <div>
+        <p class="dashboard-label" style="font-size: 13px; color: #9a9590; margin: 0 0 12px;">Moonbloom</p>
+        <h1 class="dashboard-title">
+          Mi Calendario
+          <span class="wave">✦</span>
+        </h1>
+        <p class="dashboard-subtitle">
+          {{cycles.length}} ciclo(s) registrado(s)
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <a routerLink="/ciclos/nuevo" class="btn-primary-pill">
+          Nuevo ciclo
+        </a>
+        <a routerLink="/dashboard" class="btn-soft">
+          Dashboard
+        </a>
+      </div>
+    </div>
+
+    <ng-container *ngIf="cycles.length > 0; else noCycles">
+    <!-- ── Timeline de ciclos ─────────────────────────────────────────────── -->
+    <div class="cycles-timeline">
+      <div class="glass-card" *ngFor="let cycle of cycles">
+        <div class="cycle-entry-header">
+          <div class="cycle-number">
+            <span style="color: #e8743a; font-size:1.2rem; margin-right: 8px;">●</span>
+            Ciclo
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span class="badge-cycle" *ngIf="cycle.durationDays">{{cycle.durationDays}} días</span>
+            <a [routerLink]="['/ciclos', cycle._id, 'editar']" class="btn-soft" style="padding: 6px 12px; font-size: 12px;">
+              Editar
+            </a>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="cycle-info-item">
+              <span class="ci-label">Inicio</span>
+              <span class="ci-value">{{cycle.startDate | date:'longDate'}}</span>
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="cycle-info-item">
+              <span class="ci-label">Fin</span>
+              <span class="ci-value" *ngIf="cycle.endDate; else enCurso">
+                {{cycle.endDate | date:'longDate'}}
+              </span>
+              <ng-template #enCurso><span class="ci-value" style="color: #e8743a;"><em>En curso</em></span></ng-template>
+            </div>
+          </div>
+          <div class="col-sm-4" *ngIf="cycle.notes">
+            <div class="cycle-info-item">
+              <span class="ci-label">Notas</span>
+              <span class="ci-value" style="font-style: italic;">{{cycle.notes}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </ng-container>
+
+    <ng-template #noCycles>
+    <!-- ── Empty state ────────────────────────────────────────────────────── -->
+    <div class="glass-card empty-state">
+      <span class="empty-icon">✦</span>
+      <h3 style="font-weight: 400; margin-bottom: 10px; color: #1c1b19;">No tienes ciclos registrados</h3>
+      <p style="color: #9a9590; margin-bottom: 20px;">Registra tu primer ciclo para empezar a llevar tu seguimiento.</p>
+      <a routerLink="/ciclos/nuevo" class="btn-primary-pill">
+        Crear mi primer ciclo
+      </a>
+    </div>
+    </ng-template>
+
+  </div>
+</div>
