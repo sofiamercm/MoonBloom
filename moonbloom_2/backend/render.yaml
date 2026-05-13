@@ -20,7 +20,7 @@ services:
       - key: GOOGLE_CALLBACK_URL
         value: https://moonbloom-backend.onrender.com/api/auth/google/callback
       - key: CORS_ORIGIN
-        value: https://moonbloom-frontend.onrender.com
+        value: https://moonbloom-2.onrender.com
       - key: APP_URL
         value: https://moonbloom-backend.onrender.com
       - key: DISABLE_JOBS
