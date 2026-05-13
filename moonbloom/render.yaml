@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: moonbloom-frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist/moonbloom/browser
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

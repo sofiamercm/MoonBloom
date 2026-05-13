@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CycleService {
 
-  private API_URL = 'http://localhost:3000/api/cycles';
+  private API_URL = `${environment.apiUrl}/cycles`;
 
   constructor(private http: HttpClient) {}
 
