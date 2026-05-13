@@ -92,29 +92,30 @@ export const googleCallback = (req: Request, res: Response): void => {
 
 // ── UI: GET /login y GET /registro ───────────────────────────────────────
 export const renderLogin = (req: Request, res: Response): void => {
-  res.render("auth/login", {
-    error: req.query.error ? "No se pudo iniciar sesión" : null
-  });
+  const error = req.query.error ? `?error=${req.query.error}` : "";
+  res.redirect(`${FRONTEND()}/login${error}`);
 };
 
 export const renderRegister = (_req: Request, res: Response): void => {
-  res.render("auth/register");
+  res.redirect(`${FRONTEND()}/register`);
 };
 
 // ── UI: POST /login y POST /registro ─────────────────────────────────────
+const FRONTEND = () => process.env.CORS_ORIGIN || "http://localhost:4200";
+
 export const loginUI = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email?.toLowerCase() });
     if (!user || !(await user.comparePassword(password))) {
-      res.render("auth/login", { error: "Credenciales inválidas" });
+      res.redirect(`${FRONTEND()}/login?error=credenciales`);
       return;
     }
     const token = signToken(user._id.toString());
     res.cookie("token", token, COOKIE_OPTIONS);
-    res.redirect("/dashboard");
+    res.redirect(`${FRONTEND()}/auth/callback?token=${token}`);
   } catch (err: any) {
-    res.render("auth/login", { error: err.message });
+    res.redirect(`${FRONTEND()}/login?error=server`);
   }
 };
 
@@ -123,7 +124,7 @@ export const registerUI = async (req: Request, res: Response): Promise<void> => 
     const { name, email, password } = req.body;
     const existing = await User.findOne({ email: email?.toLowerCase() });
     if (existing) {
-      res.render("auth/register", { error: "El correo ya está registrado" });
+      res.redirect(`${FRONTEND()}/register?error=exists`);
       return;
     }
     const user = await User.create({ name, email, password });
@@ -132,14 +133,13 @@ export const registerUI = async (req: Request, res: Response): Promise<void> => 
     );
     const token = signToken(user._id.toString());
     res.cookie("token", token, COOKIE_OPTIONS);
-    res.redirect("/dashboard");
+    res.redirect(`${FRONTEND()}/auth/callback?token=${token}`);
   } catch (err: any) {
-    const msg = err.errors ? Object.values(err.errors).map((e: any) => e.message).join(", ") : err.message;
-    res.render("auth/register", { error: msg });
+    res.redirect(`${FRONTEND()}/register?error=server`);
   }
 };
 
 export const logoutUI = (_req: Request, res: Response): void => {
   res.clearCookie("token");
-  res.redirect("/login");
+  res.redirect(`${FRONTEND()}/login`);
 };
