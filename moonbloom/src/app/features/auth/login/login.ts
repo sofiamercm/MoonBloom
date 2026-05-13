@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { AuthService } from '../../../core/services/auth';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent {
   isLoading = false;
   errorMessage = '';
   loginForm: FormGroup;
+  googleAuthUrl = `${environment.apiUrl}/auth/google`;
 
   constructor(
     private fb: FormBuilder,
