@@ -53,7 +53,7 @@ $radius-pill: 100px;
   z-index: 1;
   border-radius: $radius-card;
   padding: 36px 44px;
-  background: rgba(126, 73, 34, 0.515);
+  background: rgba(250, 247, 242, 0.38);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -94,19 +94,23 @@ $radius-pill: 100px;
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #fff;
+  color: $text-muted;
   margin: 0 0 10px;
 }
 
 .dashboard-title {
-  font-size: 44px;
+  font-size: 52px;
   font-weight: 300;
   color: $text-dark;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.03em;
-  margin: 0 0 12px;
+  margin: 0 0 14px;
 
-  @media (max-width: 640px) { font-size: 32px; }
+  &--muted {
+    color: $text-muted;
+  }
+
+  @media (max-width: 640px) { font-size: 36px; }
 }
 
 .wave { color: $orange; }
@@ -114,7 +118,7 @@ $radius-pill: 100px;
 .dashboard-subtitle {
   font-size: 13px;
   font-weight: 300;
-  color: #fff;
+  color: $text-muted;
   line-height: 1.7;
   margin: 0;
 }
@@ -137,7 +141,7 @@ $radius-pill: 100px;
 
 .btn-dark {
   background: $text-dark;
-  color: #fff;
+  color: $text-muted;
   border: none;
   border-radius: $radius-pill;
   padding: 13px 20px;
