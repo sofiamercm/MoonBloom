@@ -79,15 +79,15 @@ export const me = (req: Request, res: Response): void => {
 };
 
 // ── GET /api/auth/google/callback ────────────────────────────────────────
-// Passport ya inyectó req.user. Generamos JWT y redirigimos.
 export const googleCallback = (req: Request, res: Response): void => {
+  const frontendUrl = process.env.FRONTEND_URL || process.env.CORS_ORIGIN || "http://localhost:4200";
   if (!req.user) {
-    res.redirect("/login?error=google");
+    res.redirect(`${frontendUrl}/login?error=google`);
     return;
   }
   const token = signToken(req.user._id.toString());
   res.cookie("token", token, COOKIE_OPTIONS);
-  res.redirect("/dashboard");
+  res.redirect(`${frontendUrl}/auth/callback?token=${token}`);
 };
 
 // ── UI: GET /login y GET /registro ───────────────────────────────────────

@@ -1,7 +1,7 @@
 // ─── Punto de entrada del servidor MoonBloom ─────────────────────────────
 // Sprint 3: integración de autenticación JWT + Google OAuth, sockets y jobs.
 
-// dotenv debe ser la PRIMERA línea
+// dotenv debe ser la PRIMERA línea 
 import "dotenv/config";
 
 import express from "express";

@@ -27,11 +27,13 @@ router.get(
   })
 );
 
+const FRONTEND_URL = process.env.FRONTEND_URL || process.env.CORS_ORIGIN || "http://localhost:4200";
+
 router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "/login?error=google"
+    failureRedirect: `${FRONTEND_URL}/login?error=google`
   }),
   googleCallback
 );
