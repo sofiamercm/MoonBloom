@@ -18,11 +18,11 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: GOOGLE_CALLBACK_URL
-        value: https://moonbloom-backend.onrender.com/api/auth/google/callback
+        value: https://moonbloom.onrender.com/api/auth/google/callback
       - key: CORS_ORIGIN
-        value: https://moonbloom.onrender.com
+        value: https://moonbloom-2.onrender.com
       - key: APP_URL
-        value: https://moonbloom-backend.onrender.com
+        value: https://moonbloom.onrender.com
       - key: DISABLE_JOBS
         value: false
       - key: REMINDER_CRON
