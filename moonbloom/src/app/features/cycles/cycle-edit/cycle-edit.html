@@ -1,5 +1,4 @@
 <div class="dashboard-wrapper">
-  <!-- Fondo decorativo -->
   <div class="card-back">
     <div class="blob-orange"></div>
   </div>
@@ -10,71 +9,60 @@
       <div>
         <p class="dashboard-label" style="font-size: 13px; color: #9a9590; margin: 0 0 12px;">Moonbloom</p>
         <h1 class="dashboard-title">
-          Editar ciclo
+          Edit cycle
           <span class="wave">✦</span>
         </h1>
-        <p class="dashboard-subtitle">
-          Actualiza la información de tu ciclo menstrual
-        </p>
+        <p class="dashboard-subtitle">Update the information of your cycle</p>
       </div>
-
-      <div>
-        <a routerLink="/calendario" class="btn-soft">
-          Volver al calendario
-        </a>
-      </div>
+      <a routerLink="/calendario" class="btn-soft">Back to calendar</a>
     </div>
 
     <div class="glass-card">
-      <div *ngIf="error" class="alert-danger">
-        {{error}}
-      </div>
+
+      <div *ngIf="error" class="alert-danger">{{ error }}</div>
 
       <div *ngIf="loading" style="padding: 40px; text-align: center; color: #9a9590;">
-        Cargando ciclo...
+        Loading cycle...
       </div>
 
-      <form (ngSubmit)="onSubmit()" *ngIf="!loading">
+      <form (ngSubmit)="onSubmit()" *ngIf="!loading && !error">
 
-        <!-- Fecha de inicio -->
         <div style="margin-bottom: 24px;">
-          <label for="startDate" class="form-label">Fecha de inicio</label>
+          <label for="startDate" class="form-label">Start date</label>
           <input type="date" id="startDate" name="startDate" [(ngModel)]="cycle.startDate" class="form-control" required />
         </div>
 
-        <!-- Fecha de fin (opcional) -->
         <div style="margin-bottom: 24px;">
           <label for="endDate" class="form-label">
-            Fecha de fin
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(opcional — puedes agregarla después)</span>
+            End date
+            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(optional)</span>
           </label>
           <input type="date" id="endDate" name="endDate" [(ngModel)]="cycle.endDate" class="form-control" />
         </div>
 
-        <!-- Duración en días (opcional) -->
         <div style="margin-bottom: 24px;">
           <label for="durationDays" class="form-label">
-            Duración
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(días, opcional)</span>
+            Duration
+            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(days, optional)</span>
           </label>
-          <input type="number" id="durationDays" name="durationDays" [(ngModel)]="cycle.durationDays" class="form-control"
-            placeholder="Ej: 28" min="1" max="90" />
+          <input type="number" id="durationDays" name="durationDays" [(ngModel)]="cycle.durationDays"
+            class="form-control" placeholder="e.g. 28" min="1" max="90" />
         </div>
 
-        <!-- Notas -->
         <div style="margin-bottom: 32px;">
-          <label for="notes" class="form-label">Notas</label>
+          <label for="notes" class="form-label">Notes</label>
           <textarea id="notes" name="notes" [(ngModel)]="cycle.notes" class="form-control" rows="3"
-            placeholder="Observaciones generales del ciclo"></textarea>
+            placeholder="General observations about this cycle"></textarea>
         </div>
 
         <div style="display: flex; justify-content: flex-end;">
           <button type="submit" class="btn-primary-pill" style="padding: 16px 40px; font-size: 16px;">
-            Guardar cambios
+            Save changes
           </button>
         </div>
 
       </form>
+
     </div>
 
   </div>

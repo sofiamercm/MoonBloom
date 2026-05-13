@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,8 @@ export class CycleEditComponent implements OnInit {
   constructor(
     private cycleService: CycleService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -44,10 +45,13 @@ export class CycleEditComponent implements OnInit {
           notes: data.notes || ''
         };
         this.loading = false;
+        this.cdr.detectChanges(); // ← fuerza el re-render
       },
       error: (err) => {
         console.error('Error fetching cycle:', err);
-        this.router.navigate(['/calendario']);
+        this.loading = false;
+        this.error = 'Could not load the cycle. Please try again.';
+        this.cdr.detectChanges();
       }
     });
   }
@@ -56,30 +60,21 @@ export class CycleEditComponent implements OnInit {
     const payload = { ...this.cycle };
 
     if (!payload.startDate) {
-      this.error = 'La fecha de inicio es obligatoria.';
+      this.error = 'Start date is required.';
       return;
     }
 
-    if (!payload.endDate) {
-      payload.endDate = null;
-    }
-
-    if (payload.durationDays) {
-      payload.durationDays = Number(payload.durationDays);
-    } else {
-      payload.durationDays = null;
-    }
+    if (!payload.endDate) payload.endDate = null;
+    payload.durationDays = payload.durationDays ? Number(payload.durationDays) : null;
 
     this.cycleService.updateCycle(this.cycleId, payload).subscribe({
       next: () => {
         this.router.navigate(['/calendario']);
       },
       error: (err) => {
-        if (err.error?.errors && Array.isArray(err.error.errors)) {
-          this.error = err.error.errors.join(', ');
-        } else {
-          this.error = err.error?.message || 'Error al actualizar el ciclo';
-        }
+        this.error = Array.isArray(err.error?.errors)
+          ? err.error.errors.join(', ')
+          : err.error?.message || 'Error updating the cycle.';
         console.error('Error updating cycle:', err);
       }
     });
