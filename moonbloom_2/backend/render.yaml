@@ -7,8 +7,6 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3000
       - key: MONGO_URI
         value: mongodb+srv://KAIT0:Qx0ZesHTNYx86UzL@myapp.mxu9yj6.mongodb.net/moonbloom?appName=MyApp
       - key: JWT_SECRET
