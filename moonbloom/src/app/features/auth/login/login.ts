@@ -18,7 +18,9 @@ export class LoginComponent {
   isLoading = false;
   errorMessage = '';
   loginForm: FormGroup;
-  googleAuthUrl = `${environment.apiUrl}/auth/google`;
+  loginWithGoogle(): void {
+    window.location.href = `${environment.apiUrl}/auth/google`;
+  }
 
   constructor(
     private fb: FormBuilder,
