@@ -26,4 +26,8 @@ export class AuthService {
       { withCredentials: true }
     );
   }
+
+  me(): Observable<any> {
+    return this.http.get(`${this.API_URL}/me`, { withCredentials: true });
+  }
 }

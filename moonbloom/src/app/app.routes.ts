@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home';
 import { LoginComponent } from './features/auth/login/login';
 import { RegisterComponent } from './features/auth/register/register';
+import { AuthCallbackComponent } from './features/auth/auth-callback/auth-callback';
 import { NotFoundComponent } from './pages/not-found/not-found';
 import { DashboardHomeComponent } from './features/dashboard/dashboard-home/dashboard-home';
 import { CycleList } from './features/cycles/cycle-list/cycle-list';
@@ -23,6 +24,10 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'auth/callback',
+    component: AuthCallbackComponent
   },
   {
     path: 'dashboard',
