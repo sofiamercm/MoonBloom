@@ -1,46 +1,17 @@
 <nav class="navbar-wrapper">
 
-  <!-- Brand -->
   <div class="navbar-brand" routerLink="/">
     Moonbloom
   </div>
 
-  <!-- Navigation -->
   <div class="navbar-links">
-
-    <a
-      class="nav-link"
-      routerLink="/dashboard"
-      routerLinkActive="active-link"
-    >
-      Dashboard
-    </a>
-
-    <a
-      class="nav-link"
-      routerLink="/calendario"
-      routerLinkActive="active-link"
-    >
-      My Calendar
-    </a>
-
-    <a
-      class="nav-link"
-      routerLink="/registros/nuevo"
-      routerLinkActive="active-link"
-    >
-      Add Daily Log
-    </a>
-
+    <a class="nav-link" routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
+    <a class="nav-link" routerLink="/calendario" routerLinkActive="active-link">My Calendar</a>
+    <a class="nav-link" routerLink="/registros/nuevo" routerLinkActive="active-link">Add Daily Log</a>
   </div>
 
-  <!-- Actions -->
   <div class="navbar-actions">
-
-    <button class="logout-btn">
-      Log out
-    </button>
-
+    <button class="logout-btn" (click)="onLogout()">Log out</button>
   </div>
 
 </nav>
