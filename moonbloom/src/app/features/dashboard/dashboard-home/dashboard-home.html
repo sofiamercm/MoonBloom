@@ -33,7 +33,7 @@
       </div>
       <div class="stat-card">
         <ng-container *ngIf="lastLog; else noMood">
-          <p class="stat-number">{{ lastLog.mood }}</p>
+          <p class="stat-number">{{ moodMap[lastLog.mood] || lastLog.mood }}</p>
           <p class="stat-label">LATEST MOOD</p>
         </ng-container>
         <ng-template #noMood>

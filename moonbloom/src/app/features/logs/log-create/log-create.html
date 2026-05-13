@@ -1,5 +1,4 @@
 <div class="dashboard-wrapper">
-  <!-- Fondo decorativo -->
   <div class="card-back">
     <div class="blob-orange"></div>
   </div>
@@ -10,75 +9,71 @@
       <div>
         <p class="dashboard-label" style="font-size: 13px; color: #9a9590; margin: 0 0 12px;">Moonbloom</p>
         <h1 class="dashboard-title">
-          Registro del día
-          <span class="wave">✦</span>
+          Daily log
+          <span class="wave">✨</span>
         </h1>
-        <p class="dashboard-subtitle">
-          Cuéntale a MoonBloom cómo te sientes hoy
-        </p>
+        <p class="dashboard-subtitle">Tell Moonbloom how you feel today</p>
       </div>
-
-      <div>
-        <a routerLink="/calendario" class="btn-soft">
-          Volver al calendario
-        </a>
-      </div>
+      <a routerLink="/calendario" class="btn-soft">Back to calendar</a>
     </div>
 
     <div class="glass-card">
-      <div *ngIf="error" class="alert-danger">
-        {{error}}
+
+      <div *ngIf="error" class="alert-danger">{{ error }}</div>
+
+      <div *ngIf="loading" style="padding: 40px; text-align: center; color: #9a9590;">
+        Loading...
       </div>
 
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" *ngIf="!loading">
 
-        <!-- Ciclo asociado -->
+        <!-- Associated cycle -->
         <div style="margin-bottom: 24px;">
-          <label for="cycleId" class="form-label">Ciclo asociado</label>
+          <label for="cycleId" class="form-label">Associated cycle</label>
           <ng-container *ngIf="cycles.length > 0; else noCycles">
             <select id="cycleId" name="cycleId" [(ngModel)]="log.cycleId" class="form-select" required>
-              <option value="">Selecciona un ciclo...</option>
+              <option value="">Select a cycle...</option>
               <option *ngFor="let cycle of cycles" [value]="cycle._id">
-                Inicio: {{ cycle.startDate | date:'longDate' }}
-                <span *ngIf="cycle.endDate"> — Fin: {{ cycle.endDate | date:'longDate' }}</span>
+                Start: {{ cycle.startDate | date:'mediumDate' }}
+                <span *ngIf="cycle.endDate"> — End: {{ cycle.endDate | date:'mediumDate' }}</span>
               </option>
             </select>
           </ng-container>
           <ng-template #noCycles>
             <div class="alert-warning">
-              No tienes ciclos registrados.
-              <a routerLink="/ciclos/nuevo" style="color:#e8743a; text-decoration: underline;">Crea uno primero</a>.
+              No cycles registered yet.
+              <a routerLink="/ciclos/nuevo" style="color:#e8743a; text-decoration: underline;">Create one first</a>.
             </div>
           </ng-template>
         </div>
 
-        <!-- Fecha -->
+        <!-- Date -->
         <div style="margin-bottom: 24px;">
-          <label for="date" class="form-label">Fecha</label>
+          <label for="date" class="form-label">Date</label>
           <input type="date" id="date" name="date" [(ngModel)]="log.date" class="form-control" required />
         </div>
 
-        <!-- Humor -->
+        <!-- Mood -->
         <div style="margin-bottom: 24px;">
-          <label for="mood" class="form-label">Estado de ánimo</label>
+          <label for="mood" class="form-label">Mood</label>
           <select id="mood" name="mood" [(ngModel)]="log.mood" class="form-select">
-            <option value="">Selecciona...</option>
-            <option value="feliz">😊 Feliz</option>
-            <option value="tranquila">😌 Tranquila</option>
-            <option value="triste">😔 Triste</option>
-            <option value="enojada">😤 Enojada</option>
-            <option value="cansada">😴 Cansada</option>
-            <option value="ansiosa">😰 Ansiosa</option>
-            <option value="sensible">🥺 Sensible</option>
-            <option value="normal">😐 Normal</option>
+            <option value="">Select...</option>
+            <option value="feliz">😊 Happy</option>
+            <option value="tranquila">😌 Calm</option>
+            <option value="triste">😔 Sad</option>
+            <option value="enojada">😤 Angry</option>
+            <option value="cansada">😴 Tired</option>
+            <option value="ansiosa">😰 Anxious</option>
+            <option value="sensible">🥺 Sensitive</option>
+            <option value="normal">😐 Neutral</option>
           </select>
         </div>
-
-        <!-- Flujo -->
+        
+        <!-- Flow -->
         <div style="margin-bottom: 24px;">
           <label class="form-label">
-            Intensidad del flujo
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(1 = muy leve, 5 = muy intenso)</span>
+            Flow intensity
+            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(1 = very light, 5 = very heavy)</span>
           </label>
           <div class="flow-radio-group">
             <input type="radio" name="flow" id="flow1" value="1" [(ngModel)]="log.flow" /><label for="flow1">1</label>
@@ -89,28 +84,29 @@
           </div>
         </div>
 
-        <!-- Síntomas -->
+        <!-- Symptoms -->
         <div style="margin-bottom: 24px;">
           <label for="symptoms" class="form-label">
-            Síntomas
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(separados por coma)</span>
+            Symptoms
+            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(comma separated)</span>
           </label>
           <input type="text" id="symptoms" name="symptoms" [(ngModel)]="log.symptoms" class="form-control"
-            placeholder="Ej: cólicos, dolor de cabeza, fatiga" />
+            placeholder="e.g. cramps, headache, fatigue" />
         </div>
 
-        <!-- Notas -->
+        <!-- Notes -->
         <div style="margin-bottom: 32px;">
-          <label for="notes" class="form-label">Notas personales</label>
+          <label for="notes" class="form-label">Personal notes</label>
           <textarea id="notes" name="notes" [(ngModel)]="log.notes" class="form-control" rows="3"
-            placeholder="¿Cómo fue tu día?"></textarea>
+            placeholder="How was your day?"></textarea>
         </div>
 
         <div style="display: flex; justify-content: flex-end;">
           <button type="submit" class="btn-primary-pill" style="padding: 16px 40px; font-size: 16px;">
-            Guardar registro
+            Save log
           </button>
         </div>
+
       </form>
     </div>
 

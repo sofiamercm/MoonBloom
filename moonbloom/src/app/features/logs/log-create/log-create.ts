@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { DailyLogService } from '../../../core/services/daily-log.service';
 export class LogCreateComponent implements OnInit {
   cycles: any[] = [];
   error: string | null = null;
+  loading = true;
   log: any = {
     cycleId: '',
     date: new Date().toISOString().slice(0, 10),
@@ -27,57 +28,50 @@ export class LogCreateComponent implements OnInit {
   constructor(
     private cycleService: CycleService,
     private dailyLogService: DailyLogService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.cycleService.getCycles().subscribe({
       next: (data: any) => {
         this.cycles = data;
+        this.loading = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching cycles:', err);
+        this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   onSubmit(): void {
     if (!this.log.cycleId) {
-      this.error = 'Por favor, selecciona un ciclo asociado.';
+      this.error = 'Please select an associated cycle.';
       return;
     }
 
     const payload = { ...this.log };
-    
-    // Transformar flow de string a número
-    if (payload.flow) {
-      payload.flow = Number(payload.flow);
-    } else {
-      delete payload.flow;
-    }
 
-    // Transformar symptoms de "a, b" a ["a", "b"]
-    if (typeof payload.symptoms === 'string' && payload.symptoms.trim() !== '') {
-      payload.symptoms = payload.symptoms.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0);
-    } else {
-      payload.symptoms = [];
-    }
+    payload.flow = payload.flow ? Number(payload.flow) : undefined;
 
-    // Limpiar mood si está vacío
-    if (!payload.mood) {
-      delete payload.mood;
-    }
+    payload.symptoms = typeof payload.symptoms === 'string' && payload.symptoms.trim()
+      ? payload.symptoms.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0)
+      : [];
+
+    if (!payload.mood) delete payload.mood;
 
     this.dailyLogService.createLog(payload).subscribe({
       next: () => {
         this.router.navigate(['/calendario']);
       },
       error: (err) => {
-        if (err.error?.errors && Array.isArray(err.error.errors)) {
-          this.error = err.error.errors.join(', ');
-        } else {
-          this.error = err.error?.message || 'Error al guardar el registro';
-        }
+        console.error('Error details:', JSON.stringify(err.error));
+        this.error = Array.isArray(err.error?.errors)
+          ? err.error.errors.join(', ')
+          : err.error?.message || 'Error saving the log.';
         console.error('Error creating log:', err);
       }
     });
