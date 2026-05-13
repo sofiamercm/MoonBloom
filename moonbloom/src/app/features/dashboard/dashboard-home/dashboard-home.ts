@@ -24,18 +24,28 @@ export class DashboardHomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dashboardService.getDashboardSummary().subscribe({
-      next: (data) => {
-        if (data.user) this.user = data.user;
-        this.totalCycles = data.totalCycles || 0;
-        this.totalLogs = data.totalLogs || 0;
-        this.lastLog = data.lastLog || null;
-        this.lastCycle = data.lastCycle || null;
-        this.cdr.detectChanges(); // Forzar actualización de la vista
-      },
-      error: (err) => {
-        console.error('Error cargando el dashboard:', err);
-      }
-    });
+  // Carga inmediata desde localStorage para evitar el parpadeo
+  const stored = localStorage.getItem('user');
+  if (stored) {
+    this.user = JSON.parse(stored);
   }
+
+  // Luego actualiza con datos frescos del API
+  this.dashboardService.getDashboardSummary().subscribe({
+    next: (data) => {
+      if (data.user) {
+        this.user = data.user;
+        localStorage.setItem('user', JSON.stringify(data.user)); // mantiene localStorage actualizado
+      }
+      this.totalCycles = data.totalCycles || 0;
+      this.totalLogs = data.totalLogs || 0;
+      this.lastLog = data.lastLog || null;
+      this.lastCycle = data.lastCycle || null;
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Error cargando el dashboard:', err);
+    }
+  });
+}
 }
