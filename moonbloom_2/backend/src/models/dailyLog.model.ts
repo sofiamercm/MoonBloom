@@ -65,6 +65,8 @@ const dailyLogSchema = new mongoose.Schema<IDailyLog>({
   }
 });
 
+dailyLogSchema.index({ userId: 1, date: -1 });
+
 // exportamos el modelo con el nombre "DailyLog"
 // MongoDB va a crear una coleccion llamada "dailylogs" automaticamente
 const DailyLog: Model<IDailyLog> = mongoose.model<IDailyLog>("DailyLog", dailyLogSchema);

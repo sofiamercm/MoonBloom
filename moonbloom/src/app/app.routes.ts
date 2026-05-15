@@ -10,6 +10,7 @@ import { CycleList } from './features/cycles/cycle-list/cycle-list';
 import { CycleCreateComponent } from './features/cycles/cycle-create/cycle-create';
 import { CycleEditComponent } from './features/cycles/cycle-edit/cycle-edit';
 import { LogCreateComponent } from './features/logs/log-create/log-create';
+import { LogListComponent } from './features/logs/log-list/log-list';
 import { CalendarHomeComponent } from './features/calendar/calendar-home/calendar-home';
 import { ProfileComponent } from './features/profile/profile/profile';
 
@@ -49,6 +50,10 @@ export const routes: Routes = [
   {
     path: 'registros/nuevo',
     component: LogCreateComponent
+  },
+  {
+    path: 'daily-logs',
+    component: LogListComponent
   },
   {
     path: 'calendario',

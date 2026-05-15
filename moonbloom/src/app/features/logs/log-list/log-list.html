@@ -1,0 +1,56 @@
+<div class="logs-wrapper">
+  <div class="logs-inner">
+    <section class="logs-header">
+      <div>
+        <p class="logs-label">Moonbloom</p>
+        <h1 class="logs-title">Daily Logs</h1>
+        <p class="logs-subtitle">Review your mood, symptoms, flow, and notes across your wellness journey.</p>
+      </div>
+
+      <a routerLink="/registros/nuevo" class="btn-primary-pill">Add daily log</a>
+    </section>
+
+    <section class="logs-panel">
+      <div *ngIf="loading" class="state-card">Loading daily logs...</div>
+
+      <div *ngIf="!loading && errorMessage" class="state-card state-card--error">
+        {{ errorMessage }}
+      </div>
+
+      <div *ngIf="!loading && !errorMessage && logs.length === 0" class="empty-state">
+        <p class="empty-title">No daily logs yet</p>
+        <p class="empty-subtitle">Add your first daily log to start seeing your entries here.</p>
+        <a routerLink="/registros/nuevo" class="btn-soft">Create first log</a>
+      </div>
+
+      <div *ngIf="!loading && !errorMessage && logs.length > 0" class="logs-grid">
+        <article *ngFor="let log of logs" class="log-card">
+          <div class="log-card-header">
+            <div>
+              <p class="log-date">{{ log.date | date:'mediumDate' }}</p>
+              <h2>{{ getMoodLabel(log.mood) }}</h2>
+            </div>
+
+            <span class="flow-pill" *ngIf="log.flow">Flow {{ log.flow }}/5</span>
+          </div>
+
+          <div class="log-section">
+            <p class="log-section-label">Symptoms</p>
+            <div class="symptoms" *ngIf="log.symptoms?.length; else noSymptoms">
+              <span *ngFor="let symptom of log.symptoms">{{ symptom }}</span>
+            </div>
+            <ng-template #noSymptoms>
+              <p class="notes notes--muted">No symptoms logged.</p>
+            </ng-template>
+          </div>
+
+          <div class="log-section">
+            <p class="log-section-label">Notes</p>
+            <p class="notes" *ngIf="log.notes">{{ log.notes }}</p>
+            <p class="notes notes--muted" *ngIf="!log.notes">No notes for this day.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</div>

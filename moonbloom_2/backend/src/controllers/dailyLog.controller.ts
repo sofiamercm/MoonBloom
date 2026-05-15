@@ -9,8 +9,8 @@ import { notifyLogCreated } from "../services/notification.service";
 export const getDailyLogs = async (req: Request, res: Response): Promise<void> => {
   const logs = await DailyLog.find({ userId: req.user!._id })
     .sort({ date: -1 })
-    .populate("userId", "name email")
-    .populate("cycleId", "startDate endDate durationDays");
+    .select("date mood symptoms flow notes cycleId")
+    .lean();
   res.json(logs);
 };
 
