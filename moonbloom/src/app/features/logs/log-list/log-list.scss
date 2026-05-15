@@ -104,6 +104,14 @@ $radius-pill: 100px;
   }
 }
 
+.card-actions {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .log-date {
   margin: 0 0 6px;
   color: $text-muted;
@@ -117,6 +125,28 @@ $radius-pill: 100px;
   color: #8b3f20;
   font-size: 12px;
   padding: 8px 12px;
+}
+
+.delete-btn {
+  border: 1px solid rgba(139, 46, 34, 0.2);
+  border-radius: $radius-pill;
+  background: rgba(183, 66, 46, 0.12);
+  color: #8b2e22;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  padding: 8px 12px;
+  transition: background 0.2s, transform 0.2s;
+
+  &:hover:not(:disabled) {
+    background: rgba(183, 66, 46, 0.18);
+    transform: scale(1.02);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
 }
 
 .log-section {

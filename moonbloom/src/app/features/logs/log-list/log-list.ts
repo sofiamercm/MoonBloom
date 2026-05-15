@@ -16,6 +16,7 @@ export class LogListComponent implements OnInit {
   logs: DailyLog[] = [];
   loading = true;
   errorMessage = '';
+  deletingLogId = '';
 
   private platformId = inject(PLATFORM_ID);
 
@@ -66,5 +67,29 @@ export class LogListComponent implements OnInit {
   getMoodLabel(mood?: string): string {
     if (!mood) return 'No mood';
     return this.moodMap[mood] || mood;
+  }
+
+  deleteLog(log: DailyLog): void {
+    if (!log._id) return;
+
+    const confirmed = window.confirm('Delete this daily log?');
+    if (!confirmed) return;
+
+    this.deletingLogId = log._id;
+    this.errorMessage = '';
+
+    this.dailyLogService.deleteLog(log._id).subscribe({
+      next: () => {
+        this.logs = this.logs.filter((item) => item._id !== log._id);
+        this.deletingLogId = '';
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error deleting daily log:', err);
+        this.errorMessage = err?.error?.message || 'Error deleting daily log.';
+        this.deletingLogId = '';
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

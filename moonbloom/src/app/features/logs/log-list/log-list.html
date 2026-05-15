@@ -31,7 +31,12 @@
               <h2>{{ getMoodLabel(log.mood) }}</h2>
             </div>
 
-            <span class="flow-pill" *ngIf="log.flow">Flow {{ log.flow }}/5</span>
+            <div class="card-actions">
+              <span class="flow-pill" *ngIf="log.flow">Flow {{ log.flow }}/5</span>
+              <button type="button" class="delete-btn" [disabled]="deletingLogId === log._id" (click)="deleteLog(log)">
+                {{ deletingLogId === log._id ? 'Deleting...' : 'Delete' }}
+              </button>
+            </div>
           </div>
 
           <div class="log-section">

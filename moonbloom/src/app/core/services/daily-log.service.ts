@@ -22,4 +22,11 @@ export class DailyLogService {
   createLog(log: any): Observable<any> {
     return this.http.post(this.API_URL, log, { withCredentials: true });
   }
+
+  deleteLog(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(
+      `${this.API_URL}/${id}`,
+      { withCredentials: true }
+    );
+  }
 }

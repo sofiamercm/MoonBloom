@@ -65,7 +65,7 @@ export class LogCreateComponent implements OnInit {
 
     this.dailyLogService.createLog(payload).subscribe({
       next: () => {
-        this.router.navigate(['/calendario']);
+        this.router.navigate(['/daily-logs']);
       },
       error: (err) => {
         console.error('Error details:', JSON.stringify(err.error));

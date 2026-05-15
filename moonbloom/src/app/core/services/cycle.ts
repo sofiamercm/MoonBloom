@@ -26,4 +26,8 @@ export class CycleService {
   updateCycle(id: string, cycle: any) {
     return this.http.put(`${this.API_URL}/${id}`, cycle, { withCredentials: true });
   }
+
+  deleteCycle(id: string) {
+    return this.http.delete(`${this.API_URL}/${id}`, { withCredentials: true });
+  }
 }
