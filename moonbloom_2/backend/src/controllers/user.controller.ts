@@ -26,6 +26,28 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
   res.json(updated);
 };
 
+export const updateCurrentUserProfile = async (req: Request, res: Response): Promise<void> => {
+  const name = req.body.name?.trim();
+
+  if (!name) {
+    res.status(400).json({ success: false, message: "El nombre es obligatorio" });
+    return;
+  }
+
+  const updated = await User.findByIdAndUpdate(
+    req.user!._id,
+    { name },
+    { returnDocument: "after", runValidators: true }
+  );
+
+  if (!updated) {
+    res.status(404).json({ success: false, message: "Usuario no encontrado" });
+    return;
+  }
+
+  res.json({ success: true, user: updated });
+};
+
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
   const deleted = await User.findByIdAndDelete(req.params.id);
   if (!deleted) { res.status(404); throw new Error("Usuario no encontrado"); }

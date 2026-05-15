@@ -12,7 +12,7 @@ $radius-pill:   100px;
   transform: translateX(-50%);
   z-index: 1000;
   width: calc(100% - 48px);
-  max-width: 860px;
+  max-width: 980px;
 
   display: flex;
   align-items: center;
@@ -46,7 +46,7 @@ $radius-pill:   100px;
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 .nav-link {
@@ -108,11 +108,17 @@ $radius-pill:   100px;
   .navbar-wrapper {
     top: 12px;
     width: calc(100% - 24px);
+    align-items: flex-start;
+    border-radius: 24px;
+    flex-wrap: wrap;
     padding: 10px 16px;
   }
 
   .navbar-links {
-    gap: 14px;
+    order: 3;
+    width: 100%;
+    gap: 10px 14px;
+    flex-wrap: wrap;
   }
 
   .nav-link {

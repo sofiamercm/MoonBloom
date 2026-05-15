@@ -1,0 +1,47 @@
+<div class="profile-wrapper">
+  <div class="profile-inner">
+    <section class="profile-header">
+      <p class="profile-label">Account</p>
+      <h1 class="profile-title">My Profile</h1>
+      <p class="profile-subtitle">View your account information and keep your name up to date.</p>
+    </section>
+
+    <section class="profile-panel">
+      <div class="info-block">
+        <h2>Personal information</h2>
+
+        <div class="info-row">
+          <span>Email</span>
+          <strong>{{ user?.email || 'Loading...' }}</strong>
+        </div>
+
+        <div class="info-row" *ngIf="user?.createdAt">
+          <span>Member since</span>
+          <strong>{{ user?.createdAt | date:'mediumDate' }}</strong>
+        </div>
+      </div>
+
+      <form class="edit-form" [formGroup]="profileForm" (ngSubmit)="onSave()">
+        <label for="name">Name</label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+          placeholder="Your name"
+          [class.invalid]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
+        />
+
+        <small class="field-error" *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
+          Please enter at least 3 characters.
+        </small>
+
+        <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
+        <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+        <button type="submit" class="save-btn" [disabled]="isLoading || isSaving">
+          {{ isSaving ? 'Saving...' : 'Save changes' }}
+        </button>
+      </form>
+    </section>
+  </div>
+</div>

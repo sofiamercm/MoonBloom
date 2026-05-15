@@ -1,5 +1,5 @@
 import express from "express";
-import { getUsers, getUserById, createUser, updateUser, deleteUser, getDashboardData } from "../controllers/user.controller";
+import { getUsers, getUserById, createUser, updateUser, deleteUser, getDashboardData, updateCurrentUserProfile } from "../controllers/user.controller";
 import { requireAuth } from "../middleware/auth.middleware";
 
 const router = express.Router();
@@ -11,6 +11,9 @@ router.post("/", createUser);
 
 // GET    /api/users/dashboard — obtiene el resumen para el dashboard
 router.get("/dashboard", requireAuth, getDashboardData);
+
+// PATCH  /api/users/profile — actualiza el perfil de la usuaria autenticada
+router.patch("/profile", requireAuth, updateCurrentUserProfile);
 
 // GET    /api/users/:id   — obtiene un usuario por ID
 // PUT    /api/users/:id   — actualiza un usuario por ID
