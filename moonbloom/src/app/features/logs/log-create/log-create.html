@@ -1,80 +1,66 @@
-<div class="dashboard-wrapper">
-  <div class="card-back">
-    <div class="blob-orange"></div>
-  </div>
-
-  <div class="dashboard-front">
-
-    <div class="dashboard-header" style="margin-bottom: 20px;">
+<div class="form-wrapper">
+  <div class="form-inner">
+    <section class="form-header">
       <div>
-        <p class="dashboard-label" style="font-size: 13px; color: #9a9590; margin: 0 0 12px;">Moonbloom</p>
-        <h1 class="dashboard-title">
-          Daily log
-          <span class="wave">✨</span>
-        </h1>
-        <p class="dashboard-subtitle">Tell Moonbloom how you feel today</p>
+        <p class="form-label-top">Moonbloom</p>
+        <h1 class="form-title">New Daily Log 🌙</h1>
+        <p class="form-subtitle">Capture how your body and mood feel today.</p>
       </div>
-      <a routerLink="/calendario" class="btn-soft">Back to calendar</a>
-    </div>
 
-    <div class="glass-card">
+      <a routerLink="/daily-logs" class="btn-soft">Back to daily logs</a>
+    </section>
 
-      <div *ngIf="error" class="alert-danger">{{ error }}</div>
+    <section class="form-panel">
+      <div *ngIf="error" class="alert alert--error">{{ error }}</div>
 
-      <div *ngIf="loading" style="padding: 40px; text-align: center; color: #9a9590;">
+      <div *ngIf="loading" class="state-card">
         Loading...
       </div>
 
-      <form (ngSubmit)="onSubmit()" *ngIf="!loading">
-
-        <!-- Associated cycle -->
-        <div style="margin-bottom: 24px;">
-          <label for="cycleId" class="form-label">Associated cycle</label>
+      <form (ngSubmit)="onSubmit()" *ngIf="!loading" class="entry-form">
+        <div class="field-group">
+          <label for="cycleId">Associated cycle</label>
           <ng-container *ngIf="cycles.length > 0; else noCycles">
-            <select id="cycleId" name="cycleId" [(ngModel)]="log.cycleId" class="form-select" required>
+            <select id="cycleId" name="cycleId" [(ngModel)]="log.cycleId" required>
               <option value="">Select a cycle...</option>
               <option *ngFor="let cycle of cycles" [value]="cycle._id">
                 Start: {{ cycle.startDate | date:'mediumDate' }}
-                <span *ngIf="cycle.endDate"> — End: {{ cycle.endDate | date:'mediumDate' }}</span>
               </option>
             </select>
           </ng-container>
+
           <ng-template #noCycles>
-            <div class="alert-warning">
+            <div class="alert alert--warning">
               No cycles registered yet.
-              <a routerLink="/ciclos/nuevo" style="color:#e8743a; text-decoration: underline;">Create one first</a>.
+              <a routerLink="/ciclos/nuevo">Create one first</a>.
             </div>
           </ng-template>
         </div>
 
-        <!-- Date -->
-        <div style="margin-bottom: 24px;">
-          <label for="date" class="form-label">Date</label>
-          <input type="date" id="date" name="date" [(ngModel)]="log.date" class="form-control" required />
+        <div class="field-grid">
+          <div class="field-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" [(ngModel)]="log.date" required />
+          </div>
+
+          <div class="field-group">
+            <label for="mood">Mood</label>
+            <select id="mood" name="mood" [(ngModel)]="log.mood">
+              <option value="">Select...</option>
+              <option value="feliz">😊 Happy</option>
+              <option value="tranquila">😌 Calm</option>
+              <option value="triste">😔 Sad</option>
+              <option value="enojada">😤 Angry</option>
+              <option value="cansada">😴 Tired</option>
+              <option value="ansiosa">😰 Anxious</option>
+              <option value="sensible">🥺 Sensitive</option>
+              <option value="normal">😐 Neutral</option>
+            </select>
+          </div>
         </div>
 
-        <!-- Mood -->
-        <div style="margin-bottom: 24px;">
-          <label for="mood" class="form-label">Mood</label>
-          <select id="mood" name="mood" [(ngModel)]="log.mood" class="form-select">
-            <option value="">Select...</option>
-            <option value="feliz">😊 Happy</option>
-            <option value="tranquila">😌 Calm</option>
-            <option value="triste">😔 Sad</option>
-            <option value="enojada">😤 Angry</option>
-            <option value="cansada">😴 Tired</option>
-            <option value="ansiosa">😰 Anxious</option>
-            <option value="sensible">🥺 Sensitive</option>
-            <option value="normal">😐 Neutral</option>
-          </select>
-        </div>
-        
-        <!-- Flow -->
-        <div style="margin-bottom: 24px;">
-          <label class="form-label">
-            Flow intensity
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(1 = very light, 5 = very heavy)</span>
-          </label>
+        <div class="field-group">
+          <label>Flow intensity <span>1 = very light, 5 = very heavy</span></label>
           <div class="flow-radio-group">
             <input type="radio" name="flow" id="flow1" value="1" [(ngModel)]="log.flow" /><label for="flow1">1</label>
             <input type="radio" name="flow" id="flow2" value="2" [(ngModel)]="log.flow" /><label for="flow2">2</label>
@@ -84,31 +70,32 @@
           </div>
         </div>
 
-        <!-- Symptoms -->
-        <div style="margin-bottom: 24px;">
-          <label for="symptoms" class="form-label">
-            Symptoms
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">(comma separated)</span>
-          </label>
-          <input type="text" id="symptoms" name="symptoms" [(ngModel)]="log.symptoms" class="form-control"
-            placeholder="e.g. cramps, headache, fatigue" />
+        <div class="field-group">
+          <label for="symptoms">Symptoms <span>comma separated</span></label>
+          <input
+            type="text"
+            id="symptoms"
+            name="symptoms"
+            [(ngModel)]="log.symptoms"
+            placeholder="e.g. cramps, headache, fatigue"
+          />
         </div>
 
-        <!-- Notes -->
-        <div style="margin-bottom: 32px;">
-          <label for="notes" class="form-label">Personal notes</label>
-          <textarea id="notes" name="notes" [(ngModel)]="log.notes" class="form-control" rows="3"
-            placeholder="How was your day?"></textarea>
+        <div class="field-group">
+          <label for="notes">Notes</label>
+          <textarea
+            id="notes"
+            name="notes"
+            [(ngModel)]="log.notes"
+            rows="4"
+            placeholder="How was your day?"
+          ></textarea>
         </div>
 
-        <div style="display: flex; justify-content: flex-end;">
-          <button type="submit" class="btn-primary-pill" style="padding: 16px 40px; font-size: 16px;">
-            Save log
-          </button>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary-pill">Save log</button>
         </div>
-
       </form>
-    </div>
-
+    </section>
   </div>
 </div>

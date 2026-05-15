@@ -1,94 +1,61 @@
-<div class="dashboard-wrapper">
-  <!-- Decorative background -->
-  <div class="card-back">
-    <div class="blob-orange"></div>
-  </div>
-
-  <div class="dashboard-front">
-
-    <div class="glass-card">
-      <div class="dashboard-header" style="margin-bottom: 20px;">
-        <div>
-          <p class="dashboard-label" style="font-size: 13px; color: #9a9590; margin: 0 0 12px;">Moonbloom</p>
-          <h1 class="dashboard-title">
-            New Cycle
-            <span class="wave">✨</span>
-          </h1>
-          <p class="dashboard-subtitle">
-            Log a new menstrual cycle
-          </p>
-        </div>
-
-        <div>
-          <a routerLink="/calendario" class="btn-soft">
-            Back to Calendar
-          </a>
-        </div>
+<div class="form-wrapper">
+  <div class="form-inner">
+    <section class="form-header">
+      <div>
+        <p class="form-label-top">Moonbloom</p>
+        <h1 class="form-title">New Cycle ✨</h1>
+        <p class="form-subtitle">Log a new menstrual cycle and keep your calendar in rhythm.</p>
       </div>
 
-      <div *ngIf="error" class="alert-danger">
-        {{error}}
+      <a routerLink="/calendario" class="btn-soft">Back to calendar</a>
+    </section>
+
+    <section class="form-panel">
+      <div *ngIf="error" class="alert alert--error">
+        {{ error }}
       </div>
 
-      <form (ngSubmit)="onSubmit()">
+      <form (ngSubmit)="onSubmit()" class="entry-form">
+        <div class="field-grid">
+          <div class="field-group">
+            <label for="startDate">Start Date</label>
+            <input type="date" id="startDate" name="startDate" [(ngModel)]="cycle.startDate" required />
+          </div>
 
-        <!-- Start date -->
-        <div style="margin-bottom: 24px;">
-          <label for="startDate" class="form-label">Start Date</label>
-          <input type="date" id="startDate" name="startDate" [(ngModel)]="cycle.startDate" class="form-control" required />
+          <div class="field-group">
+            <label for="endDate">End Date <span>optional</span></label>
+            <input type="date" id="endDate" name="endDate" [(ngModel)]="cycle.endDate" />
+          </div>
         </div>
 
-        <!-- End date (optional) -->
-        <div style="margin-bottom: 24px;">
-          <label for="endDate" class="form-label">
-            End Date
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">
-              (optional — you can add it later)
-            </span>
-          </label>
-          <input type="date" id="endDate" name="endDate" [(ngModel)]="cycle.endDate" class="form-control" />
-        </div>
-
-        <!-- Duration in days (optional) -->
-        <div style="margin-bottom: 24px;">
-          <label for="durationDays" class="form-label">
-            Duration
-            <span style="color: #9a9590; font-weight: 300; font-size: 12px; margin-left: 5px;">
-              (days, optional)
-            </span>
-          </label>
-          <input 
+        <div class="field-group">
+          <label for="durationDays">Duration <span>days, optional</span></label>
+          <input
             type="number"
             id="durationDays"
             name="durationDays"
             [(ngModel)]="cycle.durationDays"
-            class="form-control"
             placeholder="Ex: 28"
             min="1"
-            max="90" />
+            max="90"
+          />
         </div>
 
-        <!-- Notes -->
-        <div style="margin-bottom: 32px;">
-          <label for="notes" class="form-label">Notes</label>
+        <div class="field-group">
+          <label for="notes">Notes</label>
           <textarea
             id="notes"
             name="notes"
             [(ngModel)]="cycle.notes"
-            class="form-control"
-            rows="3"
-            placeholder="General observations about your cycle">
-          </textarea>
+            rows="4"
+            placeholder="General observations about your cycle"
+          ></textarea>
         </div>
 
-        <div style="display: flex; justify-content: flex-end;">
-          <button type="submit" class="btn-primary-pill" style="padding: 16px 40px; font-size: 16px;">
-            Create Cycle
-          </button>
+        <div class="form-actions">
+          <button type="submit" class="btn-primary-pill">Create cycle</button>
         </div>
-
       </form>
-    </div>
-
+    </section>
   </div>
 </div>
