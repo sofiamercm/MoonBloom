@@ -13,7 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class DashboardHomeComponent implements OnInit {
 
-  user = { name: '' };
+  user = { name: '', profileImageUrl: '' };
   totalCycles = 0;
   totalLogs = 0;
   lastLog: any = null;
@@ -63,5 +63,15 @@ export class DashboardHomeComponent implements OnInit {
         console.error('Error loading dashboard:', err);
       }
     });
+  }
+
+  get initials(): string {
+    return (this.user.name || 'MB')
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0])
+      .join('')
+      .toUpperCase();
   }
 }

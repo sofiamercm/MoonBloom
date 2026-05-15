@@ -12,6 +12,8 @@ export interface IUser extends Document {
   email: string;
   password?: string;
   googleId?: string;
+  profileImageUrl?: string;
+  profileImagePublicId?: string;
   role: "user" | "admin";
   createdAt: Date;
   comparePassword(plain: string): Promise<boolean>;
@@ -21,8 +23,7 @@ const userSchema = new mongoose.Schema<IUser>({
   name: {
     type: String,
     required: [true, "El nombre es obligatorio"],
-    trim: true,
-    minlength: [3, "El nombre debe tener al menos 3 caracteres"]
+    trim: true
   },
   email: {
     type: String,
@@ -40,6 +41,12 @@ const userSchema = new mongoose.Schema<IUser>({
     type: String,
     index: true,
     sparse: true
+  },
+  profileImageUrl: {
+    type: String
+  },
+  profileImagePublicId: {
+    type: String
   },
   role: {
     type: String,

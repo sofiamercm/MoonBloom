@@ -1,14 +1,34 @@
 <div class="profile-wrapper">
   <div class="profile-inner">
     <section class="profile-header">
-      <p class="profile-label">Account</p>
-      <h1 class="profile-title">My Profile</h1>
+      <h1 class="profile-title">Your Profile ✨</h1>
       <p class="profile-subtitle">View your account information and keep your name up to date.</p>
     </section>
 
     <section class="profile-panel">
       <div class="info-block">
         <h2>Personal information</h2>
+
+        <div class="photo-block">
+          <div class="avatar-preview">
+            <img *ngIf="user?.profileImageUrl; else initialsAvatar" [src]="user?.profileImageUrl" alt="Profile photo" />
+            <ng-template #initialsAvatar>
+              <span>{{ initials }}</span>
+            </ng-template>
+          </div>
+
+          <label class="photo-btn" for="profile-photo">
+            {{ isUploadingPhoto ? 'Uploading...' : (user?.profileImageUrl ? 'Change photo' : 'Choose photo') }}
+          </label>
+          <input
+            id="profile-photo"
+            class="photo-input"
+            type="file"
+            accept="image/*"
+            [disabled]="isUploadingPhoto"
+            (change)="onPhotoSelected($event)"
+          />
+        </div>
 
         <div class="info-row">
           <span>Email</span>
@@ -22,23 +42,40 @@
       </div>
 
       <form class="edit-form" [formGroup]="profileForm" (ngSubmit)="onSave()">
-        <label for="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          formControlName="name"
-          placeholder="Your name"
-          [class.invalid]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
-        />
+        <div class="field-group">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            type="text"
+            formControlName="name"
+            placeholder="Your name"
+            [class.invalid]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
+          />
 
-        <small class="field-error" *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
-          Please enter at least 3 characters.
-        </small>
+          <small class="field-error" *ngIf="profileForm.get('name')?.hasError('required') && profileForm.get('name')?.touched">
+            Please enter your name.
+          </small>
+        </div>
+
+        <div class="field-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="your@email.com"
+            [class.invalid]="profileForm.get('email')?.invalid && profileForm.get('email')?.touched"
+          />
+
+          <small class="field-error" *ngIf="profileForm.get('email')?.invalid && profileForm.get('email')?.touched">
+            Please enter a valid email.
+          </small>
+        </div>
 
         <div class="alert success" *ngIf="successMessage">{{ successMessage }}</div>
         <div class="alert error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
-        <button type="submit" class="save-btn" [disabled]="isLoading || isSaving">
+        <button type="submit" class="save-btn" [disabled]="isLoading || isSaving || isUploadingPhoto">
           {{ isSaving ? 'Saving...' : 'Save changes' }}
         </button>
       </form>

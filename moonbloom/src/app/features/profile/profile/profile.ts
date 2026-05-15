@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
   user: User | null = null;
   isLoading = true;
   isSaving = false;
+  isUploadingPhoto = false;
   errorMessage = '';
   successMessage = '';
 
@@ -28,7 +29,8 @@ export class ProfileComponent implements OnInit {
     private userService: UserService
   ) {
     this.profileForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]]
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
@@ -43,18 +45,25 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    const name = this.profileForm.value.name.trim();
+    const profileData = {
+      name: this.profileForm.value.name.trim(),
+      email: this.profileForm.value.email.trim().toLowerCase()
+    };
+
     this.isSaving = true;
     this.errorMessage = '';
     this.successMessage = '';
 
-    this.userService.updateCurrentUserName(name).subscribe({
+    this.userService.updateCurrentUserProfile(profileData).subscribe({
       next: (response) => {
         this.isSaving = false;
         this.user = response.user;
-        this.profileForm.patchValue({ name: response.user.name });
+        this.profileForm.patchValue({
+          name: response.user.name,
+          email: response.user.email
+        });
         this.saveUser(response.user);
-        this.successMessage = 'Your name was updated.';
+        this.successMessage = 'Your profile was updated.';
       },
       error: (err) => {
         this.isSaving = false;
@@ -63,12 +72,61 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  onPhotoSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = '';
+
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      this.errorMessage = 'Please choose an image file.';
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.errorMessage = 'Please choose an image smaller than 5 MB.';
+      return;
+    }
+
+    this.isUploadingPhoto = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.userService.uploadProfilePhoto(file).subscribe({
+      next: (response) => {
+        this.isUploadingPhoto = false;
+        this.user = response.user;
+        this.saveUser(response.user);
+        this.successMessage = 'Your profile photo was updated.';
+      },
+      error: (err) => {
+        this.isUploadingPhoto = false;
+        this.errorMessage = err?.error?.message || 'We could not upload your profile photo.';
+      }
+    });
+  }
+
+  get initials(): string {
+    const source = this.user?.name || this.profileForm.value.name || 'MB';
+    return source
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part: string) => part[0])
+      .join('')
+      .toUpperCase();
+  }
+
   private loadCurrentUser(): void {
     this.userService.getCurrentUser().subscribe({
       next: (response) => {
         this.isLoading = false;
         this.user = response.user;
-        this.profileForm.patchValue({ name: response.user.name });
+        this.profileForm.patchValue({
+          name: response.user.name,
+          email: response.user.email
+        });
         this.saveUser(response.user);
       },
       error: (err) => {
@@ -86,7 +144,10 @@ export class ProfileComponent implements OnInit {
 
     try {
       this.user = JSON.parse(stored);
-      this.profileForm.patchValue({ name: this.user?.name || '' });
+      this.profileForm.patchValue({
+        name: this.user?.name || '',
+        email: this.user?.email || ''
+      });
     } catch {
       localStorage.removeItem('user');
     }

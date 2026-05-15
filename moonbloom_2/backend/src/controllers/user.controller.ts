@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import User from "../models/user.model";
 import Cycle from "../models/cycle.model";
 import DailyLog from "../models/dailyLog.model";
+import cloudinary from "../config/cloudinary";
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   const users = await User.find();
@@ -28,15 +29,88 @@ export const updateUser = async (req: Request, res: Response): Promise<void> => 
 
 export const updateCurrentUserProfile = async (req: Request, res: Response): Promise<void> => {
   const name = req.body.name?.trim();
+  const email = req.body.email?.trim().toLowerCase();
 
   if (!name) {
     res.status(400).json({ success: false, message: "El nombre es obligatorio" });
     return;
   }
 
+  if (!email) {
+    res.status(400).json({ success: false, message: "El correo electrónico es obligatorio" });
+    return;
+  }
+
+  const existing = await User.findOne({
+    email,
+    _id: { $ne: req.user!._id }
+  });
+
+  if (existing) {
+    res.status(400).json({ success: false, message: "Ya existe una cuenta con ese correo electrónico" });
+    return;
+  }
+
   const updated = await User.findByIdAndUpdate(
     req.user!._id,
-    { name },
+    { name, email },
+    { returnDocument: "after", runValidators: true }
+  );
+
+  if (!updated) {
+    res.status(404).json({ success: false, message: "Usuario no encontrado" });
+    return;
+  }
+
+  res.json({ success: true, user: updated });
+};
+
+export const updateCurrentUserPhoto = async (req: Request, res: Response): Promise<void> => {
+  if (!req.file) {
+    res.status(400).json({ success: false, message: "Selecciona una imagen" });
+    return;
+  }
+
+  if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+    res.status(500).json({ success: false, message: "Cloudinary no está configurado" });
+    return;
+  }
+
+  const uploadResult: any = await new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      {
+        folder: "moonbloom/profile-photos",
+        resource_type: "image",
+        transformation: [
+          { width: 500, height: 500, crop: "fill", gravity: "face" },
+          { quality: "auto", fetch_format: "auto" }
+        ]
+      },
+      (error, result) => {
+        if (error || !result) {
+          reject(error || new Error("No se pudo subir la imagen"));
+          return;
+        }
+
+        resolve(result);
+      }
+    );
+
+    stream.end(req.file!.buffer);
+  });
+
+  if (req.user!.profileImagePublicId) {
+    cloudinary.uploader.destroy(req.user!.profileImagePublicId).catch((err) => {
+      console.error("[cloudinary] Error eliminando foto anterior:", err.message);
+    });
+  }
+
+  const updated = await User.findByIdAndUpdate(
+    req.user!._id,
+    {
+      profileImageUrl: uploadResult.secure_url,
+      profileImagePublicId: uploadResult.public_id
+    },
     { returnDocument: "after", runValidators: true }
   );
 
@@ -64,7 +138,10 @@ export const getDashboardData = async (req: Request, res: Response): Promise<voi
     const lastLog = await DailyLog.findOne({ userId }).sort({ date: -1 }).lean();
 
     res.json({
-      user: { name: req.user!.name },
+      user: {
+        name: req.user!.name,
+        profileImageUrl: req.user!.profileImageUrl
+      },
       lastCycle,
       totalCycles,
       totalLogs,

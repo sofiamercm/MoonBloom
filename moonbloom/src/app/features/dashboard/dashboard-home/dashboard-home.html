@@ -6,13 +6,21 @@
       <!-- Tarjeta café: saludo -->
   <div class="header-card">
     <div class="dashboard-header">
-      <div>
-        <p class="dashboard-label">Moonbloom</p>
-        <h1 class="dashboard-title">
-          Hey there,<br>
-          <span class="dashboard-title--muted">{{ user.name }}</span><span class="wave"> ✨</span>
-        </h1>
-        <p class="dashboard-subtitle">Here's a soft overview of your wellness journey.</p>
+      <div class="welcome-block">
+        <div class="dashboard-avatar">
+          <img *ngIf="user.profileImageUrl; else dashboardInitials" [src]="user.profileImageUrl" alt="Profile photo" />
+          <ng-template #dashboardInitials>
+            <span>{{ initials }}</span>
+          </ng-template>
+        </div>
+
+        <div>
+          <h1 class="dashboard-title">
+            Hey there,<br>
+            <span class="dashboard-title--muted">{{ user.name }}</span><span class="wave"> ✨</span>
+          </h1>
+          <p class="dashboard-subtitle">Here's a soft overview of your wellness journey.</p>
+        </div>
       </div>
       <a routerLink="/registros/nuevo" class="btn-primary-pill" style="text-decoration:none; white-space:nowrap;">
         Add daily log
@@ -99,4 +107,3 @@
 
 </div>
   </div>
-

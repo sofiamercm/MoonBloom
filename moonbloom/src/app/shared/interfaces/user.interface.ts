@@ -4,4 +4,6 @@ export interface User {
   email: string;
   password?: string;
   createdAt?: string;
+  profileImageUrl?: string;
+  profileImagePublicId?: string;
 }

@@ -24,10 +24,21 @@ export class UserService {
     );
   }
 
-  updateCurrentUserName(name: string): Observable<{ success: boolean; user: User }> {
+  updateCurrentUserProfile(data: Pick<User, 'name' | 'email'>): Observable<{ success: boolean; user: User }> {
     return this.http.patch<{ success: boolean; user: User }>(
       `${this.apiUrl}/profile`,
-      { name },
+      data,
+      { withCredentials: true }
+    );
+  }
+
+  uploadProfilePhoto(photo: File): Observable<{ success: boolean; user: User }> {
+    const formData = new FormData();
+    formData.append('photo', photo);
+
+    return this.http.patch<{ success: boolean; user: User }>(
+      `${this.apiUrl}/profile/photo`,
+      formData,
       { withCredentials: true }
     );
   }
